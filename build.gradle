@@ -16,8 +16,12 @@ dependencies {
     implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.6.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'net.jodah:typetools:0.6.1'
-
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier "sources"
 }
 
 publishing {
@@ -35,9 +39,8 @@ publishing {
     }
     publications {
         maven(MavenPublication) {
-            artifact("build/libs/fixer-$version"+".jar") {
-                extension "jar"
-            }
+            from components.java
+            artifact sourceJar
             groupId = 'com.aaaccell'
             artifactId = 'fixer'
             pom {
@@ -63,7 +66,7 @@ publishing {
 }
 
 javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
+    if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }
 }
