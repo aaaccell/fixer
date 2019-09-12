@@ -27,13 +27,14 @@ task sourceJar(type: Jar) {
 publishing {
     repositories {
         maven {
-            def baseUrl = "http://sonatype-nexus3-1839447582.eu-central-1.elb.amazonaws.com/repository"
+            def nexusHost = project.hasProperty('nexusHost') ? nexusHost : System.getenv('NEXUS_HOST')
+            def baseUrl = "http://$nexusHost/repository"
             def repositoryUrl = "$baseUrl/maven-releases/"
             def snapshotRepositoryUrl = "$baseUrl/maven-snapshots/"
             url = version.endsWith('SNAPSHOT') ? snapshotRepositoryUrl : repositoryUrl
             credentials {
-                username project.hasProperty('nexusUser') ? getProperty('nexusUser') : System.getenv('NEXUS_USER')
-                password project.hasProperty('nexusPassword') ? getProperty('nexusPassword') : System.getenv('NEXUS_PASSWORD')
+                username project.hasProperty('nexusUser') ? nexusUser : System.getenv('NEXUS_USER')
+                password project.hasProperty('nexusPassword') ? nexusPassword : System.getenv('NEXUS_PASSWORD')
             }
         }
     }
