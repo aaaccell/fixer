@@ -32,8 +32,8 @@ publishing {
             def snapshotRepositoryUrl = "$baseUrl/maven-snapshots/"
             url = version.endsWith('SNAPSHOT') ? snapshotRepositoryUrl : repositoryUrl
             credentials {
-                username project.repoUser
-                password project.repoPassword
+                username project.hasProperty('nexusUser') ? getProperty('nexusUser') : System.getenv('NEXUS_USER')
+                password project.hasProperty('nexusPassword') ? getProperty('nexusPassword') : System.getenv('NEXUS_PASSWORD')
             }
         }
     }
