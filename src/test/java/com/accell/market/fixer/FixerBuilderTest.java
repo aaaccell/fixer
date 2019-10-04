@@ -14,7 +14,11 @@ import java.util.Collection;
 import java.util.HashMap;
 
 class FixerBuilderTest {
-    private FixerRequestBuilder builder = Fixer.builder(System.getProperty("fixerApiKey"));
+    private FixerRequestBuilder builder = Fixer.builder(
+            System.getProperty("fixerApiKey") != null ?
+                    System.getProperty("fixerApiKey") :
+                    System.getenv("FIXER_API_KEY")
+    );
 
     @Test
     void symbolsRequestTest() throws IOException {

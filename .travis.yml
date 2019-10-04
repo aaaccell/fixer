@@ -1,0 +1,18 @@
+language: java
+
+jdk:
+  - openjdk11
+
+stages:
+  - test
+  - name: deploy
+    if: branch = master
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - ./gradlew check
+    - stage: deploy
+      script:
+        - ./gradlew clean build publish
