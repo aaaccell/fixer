@@ -72,7 +72,7 @@ class FixerBuilderTest {
                 .count()
         );
 
-        assertOrdering(r.getRates().entrySet());
+        Assertions.assertTrue(isSorted(r.getRates().entrySet()));
     }
 
     @Test
@@ -83,15 +83,18 @@ class FixerBuilderTest {
                 .withStartDate("2012-05-01")
                 .withEndDate("2018-05-05")
                 .call();
-        assertOrdering(r.getRates().entrySet());
+        Assertions.assertTrue(isSorted(r.getRates().entrySet()));
     }
 
-    private void assertOrdering(Set<Map.Entry<String, HashMap<String, BigDecimal>>> entrySet) {
+    private boolean isSorted(Set<Map.Entry<String, HashMap<String, BigDecimal>>> entrySet) {
         LocalDate d = LocalDate.parse("2010-01-01");
         for (Map.Entry<String, HashMap<String, BigDecimal>> me : entrySet) {
             LocalDate date = LocalDate.parse(me.getKey());
-            Assertions.assertTrue(date.isAfter(d));
+            if(!date.isAfter(d)) {
+                return false;
+            }
             d = date;
         }
+        return true;
     }
 }
