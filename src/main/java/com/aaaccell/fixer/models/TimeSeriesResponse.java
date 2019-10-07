@@ -13,7 +13,14 @@ public class TimeSeriesResponse extends Response {
     private String base;
     private LinkedHashMap<String, HashMap<String, BigDecimal>> rates;
 
-    public TimeSeriesResponse(boolean success, boolean timeseries, LocalDate startDate, LocalDate endDate, String base, LinkedHashMap<String, HashMap<String, BigDecimal>> rates) {
+    public TimeSeriesResponse(
+            boolean success,
+            boolean timeseries,
+            LocalDate startDate,
+            LocalDate endDate,
+            String base,
+            LinkedHashMap<String, HashMap<String, BigDecimal>> rates
+    ) {
         super(success);
         this.timeseries = timeseries;
         this.startDate = startDate;
@@ -60,5 +67,13 @@ public class TimeSeriesResponse extends Response {
 
     public void setRates(LinkedHashMap<String, HashMap<String, BigDecimal>> rates) {
         this.rates = rates;
+    }
+
+    public void addRates(LinkedHashMap<String, HashMap<String, BigDecimal>> rates) {
+        if (this.rates == null) {
+            setRates(rates);
+        } else {
+            this.rates.putAll(rates);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.accell.market.fixer;
+package com.accell.fixer;
 
 import com.aaaccell.fixer.Fixer;
 import com.aaaccell.fixer.FixerRequestBuilder;
@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 class FixerBuilderTest {
     private FixerRequestBuilder builder = Fixer.builder(
@@ -52,5 +54,44 @@ class FixerBuilderTest {
                 .mapToDouble(BigDecimal::doubleValue)
                 .count()
         );
+    }
+
+    @Test
+    void timeSeriesRequestSegmentedTest() throws IOException {
+        TimeSeriesResponse r = builder.timeSeries()
+                .withBase("CHF")
+                .forSymbols("EUR", "USD")
+                .withStartDate("2012-05-01")
+                .withEndDate("2013-05-05")
+                .call();
+        Assertions.assertEquals(370, r.getRates().size());
+        Assertions.assertEquals(740, r.getRates().values().stream()
+                .map(HashMap::values)
+                .flatMap(Collection::stream)
+                .mapToDouble(BigDecimal::doubleValue)
+                .count()
+        );
+
+        assertOrdering(r.getRates().entrySet());
+    }
+
+    @Test
+    void timeSeriesRequestSegmentedWithLeapYearTest() throws IOException {
+        TimeSeriesResponse r = builder.timeSeries()
+                .withBase("CHF")
+                .forSymbols("EUR", "USD")
+                .withStartDate("2012-05-01")
+                .withEndDate("2018-05-05")
+                .call();
+        assertOrdering(r.getRates().entrySet());
+    }
+
+    private void assertOrdering(Set<Map.Entry<String, HashMap<String, BigDecimal>>> entrySet) {
+        LocalDate d = LocalDate.parse("2010-01-01");
+        for (Map.Entry<String, HashMap<String, BigDecimal>> me : entrySet) {
+            LocalDate date = LocalDate.parse(me.getKey());
+            Assertions.assertTrue(date.isAfter(d));
+            d = date;
+        }
     }
 }

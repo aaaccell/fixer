@@ -2,15 +2,22 @@ package com.aaaccell.fixer.request;
 
 import com.aaaccell.fixer.FixerService;
 import com.aaaccell.fixer.models.TimeSeriesResponse;
+import com.aaaccell.fixer.util.LocalDateHelper;
 import retrofit2.Call;
 
+import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> {
+
+    private static final long MAX_TIME_FRAME = 365;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -24,6 +31,53 @@ public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> 
     @Override
     Call<TimeSeriesResponse> getCall() {
         return fixerService.getTimeSeries(accessKey, startDate, endDate, base, symbols);
+    }
+
+    /**
+     * Calls Time-Series Endpoint
+     *
+     * If the given start and end dates overcome the maximum time frame of 365 days (see https://fixer.io/documentation),
+     * then the execution of the calls are segmented and their results (e.g. rates) combined to a single response.
+     *
+     * @return {@link TimeSeriesResponse}
+     * @throws IOException api error
+     */
+    public TimeSeriesResponse call() throws IOException {
+        List<Call<TimeSeriesResponse>> calls = LocalDateHelper
+                .splitDateRange(startDate, endDate, Duration.ofDays(MAX_TIME_FRAME))
+                .stream()
+                .map(tuple -> fixerService.getTimeSeries(accessKey, tuple.a, tuple.b, base, symbols))
+                .collect(Collectors.toList());
+
+        if (calls.size() == 1) {
+            return super.call();
+        }
+
+        ExecutorService executor = Executors.newFixedThreadPool(calls.size());
+        List<Future<TimeSeriesResponse>> futures = calls
+                .stream()
+                .map(call -> executor.submit(() -> call.execute().body()))
+                .collect(Collectors.toList());
+
+        TimeSeriesResponse response = new TimeSeriesResponse(true, true, startDate, endDate, base, new LinkedHashMap<>());
+        for (Future<TimeSeriesResponse> future : futures) {
+            TimeSeriesResponse body = null;
+            try {
+                body = future.get();
+                if (body != null && !body.isSuccess()) {
+                    response.setSuccess(false);
+                }
+                if (body != null) {
+                    response.addRates(body.getRates());
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+                throw new IOException(e);
+            }
+
+        }
+
+        return response;
     }
 
     public TimeSeriesRequest withStartDate(LocalDate date) {
