@@ -1,6 +1,6 @@
 package com.aaaccell.fixer.exception;
 
-import com.aaaccell.fixer.models.ErrorResponse;
+import com.aaaccell.fixer.response.ErrorResponse;
 
 import java.io.IOException;
 

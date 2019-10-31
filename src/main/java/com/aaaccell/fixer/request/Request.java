@@ -1,6 +1,6 @@
 package com.aaaccell.fixer.request;
 
-import com.aaaccell.fixer.models.Response;
+import com.aaaccell.fixer.response.Response;
 import retrofit2.Call;
 
 import java.io.IOException;

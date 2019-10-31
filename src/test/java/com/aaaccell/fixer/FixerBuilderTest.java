@@ -1,7 +1,7 @@
 package com.aaaccell.fixer;
 
-import com.aaaccell.fixer.models.ConvertResponse;
-import com.aaaccell.fixer.models.TimeSeriesResponse;
+import com.aaaccell.fixer.response.ConvertResponse;
+import com.aaaccell.fixer.response.TimeSeriesResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

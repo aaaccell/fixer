@@ -1,7 +1,7 @@
 package com.aaaccell.fixer.request;
 
 import com.aaaccell.fixer.FixerService;
-import com.aaaccell.fixer.models.TimeSeriesResponse;
+import com.aaaccell.fixer.response.TimeSeriesResponse;
 import com.aaaccell.fixer.util.LocalDateHelper;
 import retrofit2.Call;
 

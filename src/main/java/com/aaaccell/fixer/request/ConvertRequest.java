@@ -1,7 +1,7 @@
 package com.aaaccell.fixer.request;
 
 import com.aaaccell.fixer.FixerService;
-import com.aaaccell.fixer.models.ConvertResponse;
+import com.aaaccell.fixer.response.ConvertResponse;
 import retrofit2.Call;
 
 import java.math.BigDecimal;

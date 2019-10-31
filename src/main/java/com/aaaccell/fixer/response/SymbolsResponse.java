@@ -1,4 +1,4 @@
-package com.aaaccell.fixer.models;
+package com.aaaccell.fixer.response;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

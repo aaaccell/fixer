@@ -1,7 +1,7 @@
 package com.aaaccell.fixer.request;
 
 import com.aaaccell.fixer.FixerService;
-import com.aaaccell.fixer.models.SymbolsResponse;
+import com.aaaccell.fixer.response.SymbolsResponse;
 import retrofit2.Call;
 
 public class SymbolsRequest extends AuthenticatedRequest<SymbolsResponse> {

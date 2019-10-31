@@ -1,4 +1,4 @@
-package com.aaaccell.fixer.models;
+package com.aaaccell.fixer.response;
 
 public class ErrorResponse extends Response {
 

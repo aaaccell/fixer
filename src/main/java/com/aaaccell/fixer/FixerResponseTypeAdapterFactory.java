@@ -1,7 +1,7 @@
 package com.aaaccell.fixer;
 
 import com.aaaccell.fixer.exception.FixerException;
-import com.aaaccell.fixer.models.ErrorResponse;
+import com.aaaccell.fixer.response.ErrorResponse;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;

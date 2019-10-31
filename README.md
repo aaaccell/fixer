@@ -1,6 +1,6 @@
 # Fixer.io API Client
 
-This project provides a client to the [Fixer.io](https://fixer.io/) API.
+This project provides a Java client for the [Fixer.io](https://fixer.io/) API.
 
 ## Contribution
 
@@ -35,14 +35,6 @@ or **Maven dependency:**
   <artifactId>fixer</artifactId>
   <version>VERSION</version>
 </dependency>
-```
-
-## Tests
-
-Note that an API key is to be provided either by setting the environment variable `FIXER_API_KEY` or the JVM parameter `fixerApiKey`.
-
-```
-./gradlew check
 ```
 
 ## Usage 
@@ -99,4 +91,14 @@ TimeSeriesResponse r = builder
     .call();
 ```
 
-Additional examples can be found in the [tests](https://github.com/aaaccell/fixer/tree/master/src/test/java/com/aaaccell/fixer).
+**Additional examples**
+
+Can be found under [tests](https://github.com/aaaccell/fixer/tree/master/src/test/java/com/aaaccell/fixer).
+
+## Tests
+
+Note that an API key is to be provided either by setting the environment variable `FIXER_API_KEY` or the JVM parameter `fixerApiKey`.
+
+```
+./gradlew check
+```

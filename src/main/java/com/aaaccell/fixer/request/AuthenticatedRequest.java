@@ -1,7 +1,7 @@
 package com.aaaccell.fixer.request;
 
 import com.aaaccell.fixer.FixerService;
-import com.aaaccell.fixer.models.Response;
+import com.aaaccell.fixer.response.Response;
 
 public abstract class AuthenticatedRequest<T extends Response> extends Request<T> {
     FixerService fixerService;

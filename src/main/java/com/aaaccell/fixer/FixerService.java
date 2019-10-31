@@ -1,8 +1,8 @@
 package com.aaaccell.fixer;
 
-import com.aaaccell.fixer.models.ConvertResponse;
-import com.aaaccell.fixer.models.SymbolsResponse;
-import com.aaaccell.fixer.models.TimeSeriesResponse;
+import com.aaaccell.fixer.response.ConvertResponse;
+import com.aaaccell.fixer.response.SymbolsResponse;
+import com.aaaccell.fixer.response.TimeSeriesResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
