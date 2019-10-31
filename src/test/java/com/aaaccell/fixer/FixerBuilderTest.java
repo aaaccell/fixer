@@ -1,7 +1,5 @@
-package com.accell.fixer;
+package com.aaaccell.fixer;
 
-import com.aaaccell.fixer.Fixer;
-import com.aaaccell.fixer.FixerRequestBuilder;
 import com.aaaccell.fixer.models.ConvertResponse;
 import com.aaaccell.fixer.models.TimeSeriesResponse;
 import org.junit.jupiter.api.Assertions;
@@ -90,7 +88,7 @@ class FixerBuilderTest {
         LocalDate d = LocalDate.parse("2010-01-01");
         for (Map.Entry<String, HashMap<String, BigDecimal>> me : entrySet) {
             LocalDate date = LocalDate.parse(me.getKey());
-            if(!date.isAfter(d)) {
+            if (!date.isAfter(d)) {
                 return false;
             }
             d = date;
