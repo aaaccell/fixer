@@ -16,7 +16,7 @@ The extent to which this implementation covers the Fixer.io API is driven by our
 - [ ] Fluctuation Endpoint
 
 As can be seen from the above, this project is not completed in terms of the API coverage.
-In addition, error handling can be improved and tests extended.  
+In addition, error handling can be improved and tests extended.
 Hence, outside contributors are most welcome and we are happy to review your suggestions in the form of a pull request. 
 
 ## Setup
@@ -40,19 +40,21 @@ or **Maven dependency:**
 ## Usage 
 
 It is recommended to use the **FixerRequestBuilder** to form requests:
-```
+```java
 FixerRequestBuilder builder = builder("API_KEY");
 ```
 
 **Supported Symbols Endpoint**
-```
+
+```java
 SymbolsResponse response = builder
     .symbols()
     .call();
 ```
 
 **Convert Endpoint**
-```
+
+```java
 ConvertResponse response = builder
     .convert()
     .withDate(LocalDate.parse("2019-01-01"))
@@ -64,7 +66,7 @@ ConvertResponse response = builder
 
 **Time-Series Endpoint**
 
-```
+```java
 TimeSeriesResponse response = builder
     .timeSeries()
     .withBase("CHF")
@@ -81,7 +83,7 @@ we provide a request segmentation such that multiple 1-year periods are requeste
 
 In this example a total of 3 requests are submitted.
 
-```
+```java
 TimeSeriesResponse r = builder
     .timeSeries()
     .withBase("CHF")
