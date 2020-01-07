@@ -1,9 +1,13 @@
 package com.aaaccell.fixer.response;
 
+import lombok.EqualsAndHashCode;
+
 import java.math.BigDecimal;
 
+@EqualsAndHashCode(callSuper = true)
 public class ConvertResponse extends Response {
 
+    @EqualsAndHashCode
     public class Query {
         private String from;
         private String to;
@@ -34,6 +38,7 @@ public class ConvertResponse extends Response {
         }
     }
 
+    @EqualsAndHashCode
     public class Info {
         private Integer timestamp;
         private BigDecimal rate;

@@ -1,8 +1,11 @@
 package com.aaaccell.fixer.response;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+@EqualsAndHashCode(callSuper = true)
 public class SymbolsResponse extends Response {
     private LinkedHashMap<String, String> symbols;
 

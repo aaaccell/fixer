@@ -1,10 +1,13 @@
 package com.aaaccell.fixer.response;
 
+import lombok.EqualsAndHashCode;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+@EqualsAndHashCode(callSuper = true)
 public class TimeSeriesResponse extends Response {
 
     private boolean timeseries;

@@ -1,5 +1,8 @@
 package com.aaaccell.fixer.response;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 abstract public class Response {
     private boolean success;
 

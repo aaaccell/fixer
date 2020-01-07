@@ -3,6 +3,7 @@ package com.aaaccell.fixer.request;
 import com.aaaccell.fixer.FixerService;
 import com.aaaccell.fixer.response.TimeSeriesResponse;
 import com.aaaccell.fixer.util.LocalDateHelper;
+import lombok.EqualsAndHashCode;
 import retrofit2.Call;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode(callSuper = true)
 public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> {
 
     private static final long MAX_TIME_FRAME = 365;

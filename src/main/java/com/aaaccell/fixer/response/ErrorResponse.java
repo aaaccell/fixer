@@ -1,5 +1,8 @@
 package com.aaaccell.fixer.response;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(callSuper = true)
 public class ErrorResponse extends Response {
 
     public class Error {

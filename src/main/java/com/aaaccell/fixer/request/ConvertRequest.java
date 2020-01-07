@@ -2,11 +2,13 @@ package com.aaaccell.fixer.request;
 
 import com.aaaccell.fixer.FixerService;
 import com.aaaccell.fixer.response.ConvertResponse;
+import lombok.EqualsAndHashCode;
 import retrofit2.Call;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 public class ConvertRequest extends AuthenticatedRequest<ConvertResponse> {
 
     private String from;
