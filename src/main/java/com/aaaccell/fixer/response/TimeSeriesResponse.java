@@ -1,13 +1,11 @@
 package com.aaaccell.fixer.response;
 
-import lombok.EqualsAndHashCode;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 public class TimeSeriesResponse extends Response {
 
     private boolean timeseries;
@@ -30,6 +28,24 @@ public class TimeSeriesResponse extends Response {
         this.endDate = endDate;
         this.base = base;
         this.rates = rates;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        TimeSeriesResponse that = (TimeSeriesResponse) o;
+        return timeseries == that.timeseries &&
+                Objects.equals(startDate, that.startDate) &&
+                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(base, that.base) &&
+                Objects.equals(rates, that.rates);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), timeseries, startDate, endDate, base, rates);
     }
 
     public boolean isTimeseries() {

@@ -2,13 +2,12 @@ package com.aaaccell.fixer.request;
 
 import com.aaaccell.fixer.FixerService;
 import com.aaaccell.fixer.response.ConvertResponse;
-import lombok.EqualsAndHashCode;
 import retrofit2.Call;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 public class ConvertRequest extends AuthenticatedRequest<ConvertResponse> {
 
     private String from;
@@ -18,6 +17,23 @@ public class ConvertRequest extends AuthenticatedRequest<ConvertResponse> {
 
     public ConvertRequest(FixerService fixerService, String accessKey) {
         super(fixerService, accessKey);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ConvertRequest that = (ConvertRequest) o;
+        return Objects.equals(from, that.from) &&
+                Objects.equals(to, that.to) &&
+                Objects.equals(amount, that.amount) &&
+                Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), from, to, amount, date);
     }
 
     @Override

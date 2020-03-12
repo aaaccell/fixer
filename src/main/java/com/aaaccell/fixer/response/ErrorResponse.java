@@ -1,8 +1,7 @@
 package com.aaaccell.fixer.response;
 
-import lombok.EqualsAndHashCode;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 public class ErrorResponse extends Response {
 
     public class Error {
@@ -14,6 +13,21 @@ public class ErrorResponse extends Response {
             this.code = code;
             this.type = type;
             this.info = info;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Error error = (Error) o;
+            return Objects.equals(code, error.code) &&
+                    Objects.equals(type, error.type) &&
+                    Objects.equals(info, error.info);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(code, type, info);
         }
 
         public Integer getCode() {
@@ -44,6 +58,19 @@ public class ErrorResponse extends Response {
         super(success);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ErrorResponse that = (ErrorResponse) o;
+        return Objects.equals(error, that.error);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), error);
+    }
 
     public Error getError() {
         return error;
