@@ -1,9 +1,27 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'net.nemerosa.versioning' version '2.8.2'
+    id "com.github.breadmoirai.github-release" version "2.2.12"
 }
 
-version = '0.0.1-SNAPSHOT'
+versioning {
+    displayMode = 'snapshot' // how to compute version on non-release-branches
+    dirty = { t -> t }
+    branchEnv = ['TRAVIS_BRANCH', 'GIT_BRANCH', 'SVN_BRANCH', 'BRANCH_NAME']
+}
+
+githubRelease {
+    token project.hasProperty('githubToken') ? githubToken : System.getenv('GITHUB_TOKEN')
+    owner "aaaccell"
+    repo "fixer"
+    tagName versioning.info.display
+    targetCommitish versioning.info.commit
+    body changelog()
+    prerelease versioning.info.display.contains("-SNAPSHOT") ? true : false
+}
+
+version = versioning.info.display
 
 repositories {
     jcenter()

@@ -5,14 +5,15 @@ jdk:
 
 stages:
   - test
-  - name: deploy
-    if: branch = master
+  - name: release
+    if: (branch =~ ^release\/.*$) AND (NOT type = pull_request)
 
 jobs:
   include:
     - stage: test
       script:
         - ./gradlew check
-    - stage: deploy
+    - stage: release
       script:
         - ./gradlew clean build publish
+        - ./gradlew githubRelease
