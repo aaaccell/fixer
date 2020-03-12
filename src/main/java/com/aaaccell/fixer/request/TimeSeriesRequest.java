@@ -3,7 +3,6 @@ package com.aaaccell.fixer.request;
 import com.aaaccell.fixer.FixerService;
 import com.aaaccell.fixer.response.TimeSeriesResponse;
 import com.aaaccell.fixer.util.LocalDateHelper;
-import lombok.EqualsAndHashCode;
 import retrofit2.Call;
 
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-@EqualsAndHashCode(callSuper = true)
 public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> {
 
     private static final long MAX_TIME_FRAME = 365;
@@ -31,13 +29,30 @@ public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> 
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        TimeSeriesRequest that = (TimeSeriesRequest) o;
+        return Objects.equals(startDate, that.startDate) &&
+                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(base, that.base) &&
+                Objects.equals(symbols, that.symbols);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), startDate, endDate, base, symbols);
+    }
+
+    @Override
     Call<TimeSeriesResponse> getCall() {
         return fixerService.getTimeSeries(accessKey, startDate, endDate, base, symbols);
     }
 
     /**
      * Calls Time-Series Endpoint
-     *
+     * <p>
      * If the given start and end dates overcome the maximum time frame of 365 days (see https://fixer.io/documentation),
      * then the execution of the calls are segmented and their results (e.g. rates) combined to a single response.
      *

@@ -1,13 +1,25 @@
 package com.aaaccell.fixer.response;
 
-import lombok.EqualsAndHashCode;
+import java.util.Objects;
 
-@EqualsAndHashCode
 abstract public class Response {
     private boolean success;
 
     Response(boolean success) {
         this.success = success;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Response response = (Response) o;
+        return success == response.success;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(success);
     }
 
     public boolean isSuccess() {
