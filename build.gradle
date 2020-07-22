@@ -28,10 +28,10 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.0.1'
-    implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '4.0.1'
-    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.6.1'
-    implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.6.1'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.8.0'
+    implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '4.8.0'
+    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'
+    implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.9.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'net.jodah:typetools:0.6.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
