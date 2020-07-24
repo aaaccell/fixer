@@ -6,8 +6,8 @@ import com.aaaccell.fixer.request.TimeSeriesRequest;
 
 public class FixerRequestBuilder {
 
-    private FixerService fixerService;
-    private String accessKey;
+    private final FixerService fixerService;
+    private final String accessKey;
 
     public FixerRequestBuilder(FixerService fixerService, String accessKey) {
         this.fixerService = fixerService;
