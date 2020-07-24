@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> {
@@ -78,7 +75,7 @@ public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> 
 
         TimeSeriesResponse response = new TimeSeriesResponse(true, true, startDate, endDate, base, new LinkedHashMap<>());
         for (Future<TimeSeriesResponse> future : futures) {
-            TimeSeriesResponse body = null;
+            TimeSeriesResponse body;
             try {
                 body = future.get();
                 if (body != null && !body.isSuccess()) {
@@ -91,7 +88,15 @@ public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> 
                 e.printStackTrace();
                 throw new IOException(e);
             }
+        }
 
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
         }
 
         return response;
