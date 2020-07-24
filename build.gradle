@@ -29,6 +29,9 @@ repositories {
 
 dependencies {
     implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '3.14.9'
+    // Illegal reflective warning
+    // https://stackoverflow.com/questions/60915381/retrofit2-maven-project-illegal-reflective-access-warning
+    // We ignore the warning for now as we'll upgrade to java 14 soon enough
     implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'
     implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.9.0'
     implementation 'com.google.code.gson:gson:2.8.5'
