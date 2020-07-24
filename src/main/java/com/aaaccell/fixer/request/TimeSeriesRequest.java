@@ -3,16 +3,16 @@ package com.aaaccell.fixer.request;
 import com.aaaccell.fixer.FixerService;
 import com.aaaccell.fixer.response.TimeSeriesResponse;
 import com.aaaccell.fixer.util.LocalDateHelper;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> {
@@ -71,28 +71,21 @@ public class TimeSeriesRequest extends AuthenticatedRequest<TimeSeriesResponse> 
         }
 
         ExecutorService executor = Executors.newFixedThreadPool(calls.size());
-        List<Future<TimeSeriesResponse>> futures = calls
+        @NonNull Observable<TimeSeriesResponse> futures = Observable.merge(calls
                 .stream()
                 .map(call -> executor.submit(() -> call.execute().body()))
-                .collect(Collectors.toList());
+                .map(Observable::fromFuture)
+                .collect(Collectors.toList()));
 
         TimeSeriesResponse response = new TimeSeriesResponse(true, true, startDate, endDate, base, new LinkedHashMap<>());
-        for (Future<TimeSeriesResponse> future : futures) {
-            TimeSeriesResponse body = null;
-            try {
-                body = future.get();
-                if (body != null && !body.isSuccess()) {
-                    response.setSuccess(false);
-                }
-                if (body != null) {
-                    response.addRates(body.getRates());
-                }
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-                throw new IOException(e);
+        futures.blockingStream().forEachOrdered(body -> {
+            if (body != null && !body.isSuccess()) {
+                response.setSuccess(false);
             }
-
-        }
+            if (body != null) {
+                response.addRates(body.getRates());
+            }
+        });
 
         return response;
     }
