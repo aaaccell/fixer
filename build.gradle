@@ -24,7 +24,7 @@ githubRelease {
 version = versioning.info.display
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -50,6 +50,7 @@ test {
 publishing {
     repositories {
         maven {
+            allowInsecureProtocol true
             def nexusHost = project.hasProperty('nexusHost') ? nexusHost : System.getenv('NEXUS_HOST')
             def baseUrl = "http://$nexusHost/repository"
             def repositoryUrl = "$baseUrl/maven-releases/"
